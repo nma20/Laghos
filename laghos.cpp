@@ -489,9 +489,10 @@ int main(int argc, char *argv[])
 
    // Refine the mesh further in parallel to increase the resolution.
    for (int lev = 0; lev < rp_levels; lev++) { pmesh->UniformRefinement(); }
-
+   int num_elems_old = pmesh->GetNE();
    ParSubMesh pmesh_cond(ParSubMesh::CreateFromDomain(*pmesh, cond_attr));
-
+   int num_elems_new = pmesh_cond.GetNE();
+   bool really_embedded = num_elems_new < num_elems_old ? true : false;
    /*double volume0 = pmesh_cond.GetElementVolume(0);
    double h0;
    switch (pmesh->GetElementBaseGeometry(0))
@@ -700,7 +701,7 @@ int main(int argc, char *argv[])
                                                 visc, vorticity, p_assembly,
                                                 cg_tol, cg_max_iter, ftz_tol,
                                                 order_q, pen_param, perimeter,
-						analyticalSurface);
+						analyticalSurface, really_embedded);
 
    socketstream vis_rho, vis_v, vis_e;
    char vishost[] = "localhost";

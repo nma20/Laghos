@@ -22,7 +22,7 @@ namespace mfem{
   Line::Line(Mesh* mesh):
     AnalyticalGeometricShape(mesh),
     slope(0),
-    yIntercept(1.51)
+    yIntercept(0.51)
   { }
 
   Line::~Line(){}
